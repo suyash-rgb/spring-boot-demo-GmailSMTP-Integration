@@ -52,7 +52,7 @@ This project demonstrates how to integrate Gmail SMTP into a Spring Boot applica
    spring.mail.properties.mail.smtp.starttls.enable=true
    ```
 
-2. - Create a service class to send emails using JavaMailSender
+2. Create a service class to send emails using JavaMailSender
      
-3. - Build a REST controller to trigger email sending via JSON requests
+3. Build a REST controller to trigger email sending via JSON requests
 
