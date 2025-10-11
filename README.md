@@ -55,4 +55,14 @@ This project demonstrates how to integrate Gmail SMTP into a Spring Boot applica
 2. Create a service class to send emails using JavaMailSender
      
 3. Build a REST controller to trigger email sending via JSON requests
+   
+
+## 🛡️ Handling Large File Uploads (Preventing 413 Errors)
+
+If you're sending large image files (e.g., inline logos or attachments) and encounter a `413 Request Entity Too Large` error during testing (especially via Postman), you need to increase the maximum upload size limits in your Spring Boot configuration.
+
+### 🔧 Add These to `application.properties`:
+```properties
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
 
