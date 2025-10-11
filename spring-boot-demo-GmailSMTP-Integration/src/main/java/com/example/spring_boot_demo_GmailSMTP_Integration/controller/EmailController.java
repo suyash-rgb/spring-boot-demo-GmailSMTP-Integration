@@ -4,14 +4,14 @@ import com.example.spring_boot_demo_GmailSMTP_Integration.DTOs.HtmlEmailRequest;
 import com.example.spring_boot_demo_GmailSMTP_Integration.DTOs.SimpleEmailRequest;
 import com.example.spring_boot_demo_GmailSMTP_Integration.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamSource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,5 +58,23 @@ public class EmailController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email: "+e.getMessage());
         }
 
+    }
+
+    @PostMapping("/send-html-email-with-inline-image")
+    public ResponseEntity<String> sendHtmlEmailWithImage(
+            @RequestParam String to,
+            @RequestParam String subject,
+            @RequestParam String htmlBody,
+            @RequestParam ("image") MultipartFile imageFile,
+            @RequestParam String contentId
+            ) {
+
+        try{
+            Resource image = new ByteArrayResource(imageFile.getBytes());
+            emailService.sendEmailWithInlineImage(to, subject, htmlBody, image, contentId);
+            return ResponseEntity.ok("Email sent succcessfully");
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send email: "+e.getMessage());
+        }
     }
 }
